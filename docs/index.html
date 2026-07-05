@@ -1,16 +1,393 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Game Development — ผลงานนักศึกษา 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0c0e18;
+    --bg-panel: #14172a;
+    --bg-card: #191d33;
+    --line: #2a2f4d;
+    --text: #eceef5;
+    --text-dim: #8890ac;
+    --accent: #5eeacb;
+    --accent-dim: rgba(94,234,203,0.12);
+    --warn: #ff8b5e;
+    --warn-dim: rgba(255,139,94,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(94,234,203,0.08), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(255,139,94,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Noto Sans Thai','Space Grotesk',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+
+  /* ---------- top scanline / header ---------- */
+  .scanbar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    background:rgba(12,14,24,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--text-dim);
+  }
+  .scanbar .dot{color:var(--accent);}
+  .scanbar .right{display:flex; gap:18px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:980px;
+    margin:0 auto;
+    padding:88px 28px 64px;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--accent);
+    border:1px solid rgba(94,234,203,0.35);
+    background:var(--accent-dim);
+    padding:6px 12px;
+    border-radius:100px;
+    margin-bottom:28px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-dim);
+    animation:blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(34px, 5.5vw, 58px);
+    line-height:1.08;
+    font-weight:700;
+    margin:0 0 20px;
+  }
+  h1 .accent{color:var(--accent);}
+  .hero p.lede{
+    font-size:17px;
+    line-height:1.75;
+    color:var(--text-dim);
+    max-width:640px;
+    margin:0 0 34px;
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:28px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--text-dim);
+    border-top:1px dashed var(--line);
+    padding-top:22px;
+  }
+  .hero-meta strong{color:var(--text); font-weight:500;}
+
+  /* ---------- section label ---------- */
+  .section-head{
+    max-width:980px; margin:0 auto;
+    padding:0 28px;
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:22px;
+  }
+  .section-head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:22px;
+    margin:0;
+    font-weight:600;
+  }
+  .section-head .count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-dim);
+  }
+
+  /* ---------- level list ---------- */
+  .levels{
+    max-width:980px;
+    margin:0 auto 90px;
+    padding:0 28px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .level{
+    position:relative;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    transition:border-color .18s ease, transform .18s ease, background .18s ease;
+  }
+  .level:hover{
+    border-color:rgba(94,234,203,0.4);
+    transform:translateY(-2px);
+  }
+  .level-row{
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+  }
+  .lv-index{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--accent);
+    background:var(--accent-dim);
+    border:1px solid rgba(94,234,203,0.3);
+    border-radius:8px;
+    padding:5px 9px;
+    flex-shrink:0;
+    margin-top:2px;
+  }
+  .lv-body{flex:1; min-width:0;}
+  .lv-top{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .lv-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0;
+  }
+  .lv-title a{ text-decoration:none; }
+  .lv-title a:hover{ color:var(--accent); }
+  .status{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    padding:4px 9px;
+    border-radius:100px;
+    white-space:nowrap;
+  }
+  .status.open{ color:var(--accent); background:var(--accent-dim); border:1px solid rgba(94,234,203,0.35); }
+  .status.soon{ color:var(--warn); background:var(--warn-dim); border:1px solid rgba(255,139,94,0.35); }
+  .lv-desc{
+    color:var(--text-dim);
+    font-size:14.5px;
+    line-height:1.6;
+    margin:0 0 4px;
+  }
+
+  .missions{
+    margin-top:14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .mission{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+    padding:11px 14px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:9px;
+    font-size:14px;
+  }
+  .mission-name{ display:flex; align-items:center; gap:10px; }
+  .mission-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--text-dim);
+  }
+  .mission a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--accent);
+    text-decoration:none;
+    border-bottom:1px solid rgba(94,234,203,0.4);
+    padding-bottom:1px;
+  }
+  .mission a:hover{ border-color:var(--accent); }
+
+  .level.pending{
+    opacity:.6;
+  }
+  .level.pending .lv-title{ color:var(--text-dim); }
+  .placeholder-note{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+
+  footer{
+    max-width:980px;
+    margin:0 auto;
+    padding:30px 28px 60px;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  @media (max-width:560px){
+    .lv-row{flex-direction:column;}
+    .level-row{gap:12px;}
+    .scanbar{padding:12px 18px;}
+    .hero{padding:60px 18px 44px;}
+    .levels, .section-head{padding:0 18px;}
+    footer{padding:24px 18px 50px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .eyebrow::before{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
 </head>
 <body>
 
-    <ul>
-        <li><a href="lab01/Lab01.html">Lab01</a></li>
-        <li><a href="lab02/Game21/Game21.html">Lab02</a></li>
-    </ul>
+  <div class="scanbar">
+    <span><span class="dot">●</span> CGD-2026 // PORTFOLIO.LOG</span>
+    <span class="right">
+      <span>LABS: 06</span>
+      <span>STATUS: IN PROGRESS</span>
+    </span>
+  </div>
+
+  <section class="hero">
+    <span class="eyebrow">COMPUTER GAME DEVELOPMENT · 2026</span>
+    <h1>บันทึกการเดินทางสร้างเกม<br>จาก <span class="accent">Lab 1</span> ถึง <span class="accent">Lab 6</span></h1>
+    <p class="lede">
+      รวมผลงานภาคปฏิบัติทั้งหมดของวิชา Computer Game Development ปีการศึกษา 2026
+      แต่ละ Lab คือด่านหนึ่งของการเรียนรู้ ตั้งแต่การแนะนำตัว ไปจนถึงการสร้างเกม 2D ด้วยมือของตัวเอง
+    </p>
+    <div class="hero-meta">
+      <span>วิชา: <strong>Computer Game Development</strong></span>
+      <span>ปีการศึกษา: <strong>2026</strong></span>
+      <span>จำนวนด่านทั้งหมด: <strong>6 Labs</strong></span>
+    </div>
+  </section>
+
+  <div class="section-head">
+    <h2>Level Select</h2>
+    <span class="count">6 STAGES</span>
+  </div>
+
+  <div class="levels">
+
+    <!-- LAB 1 -->
+    <div class="level">
+      <div class="level-row">
+        <span class="lv-index mono">01</span>
+        <div class="lv-body">
+          <div class="lv-top">
+            <h3 class="lv-title"><a href="lab01/Lab01.html">แนะนำตัวเอง</a></h3>
+            <span class="status open">OPEN</span>
+          </div>
+          <p class="lv-desc">จุดเริ่มต้นของด่านทั้งหมด — เปิดตัวผู้เล่นก่อนเข้าสู่การผจญภัยในโลกของการพัฒนาเกม</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 2 -->
+    <div class="level">
+      <div class="level-row">
+        <span class="lv-index mono">02</span>
+        <div class="lv-body">
+          <div class="lv-top">
+            <h3 class="lv-title">My First 2D Game</h3>
+            <span class="status open">OPEN</span>
+          </div>
+          <p class="lv-desc">ด่านแรกของการลงมือสร้างเกมจริง แบ่งออกเป็น 2 ภารกิจย่อย</p>
+
+          <div class="missions">
+            <div class="mission">
+              <span class="mission-name"><span class="mission-tag">MISSION 1</span> ภารกิจ 1</span>
+              <a href="lab02/Game21/Game21.html">game21.html →</a>
+            </div>
+            <div class="mission">
+              <span class="mission-name"><span class="mission-tag">MISSION 2</span> ภารกิจ 2</span>
+              <a href="lab02/Game22/Game22.html">game22.html →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 3 -->
+    <div class="level pending">
+      <div class="level-row">
+        <span class="lv-index mono">03</span>
+        <div class="lv-body">
+          <div class="lv-top">
+            <h3 class="lv-title">Lab 3</h3>
+            <span class="status soon">COMING SOON</span>
+          </div>
+          <p class="placeholder-note">ยังไม่มีลิงก์ผลงาน — จะอัปเดตเมื่อพร้อมเผยแพร่</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 4 -->
+    <div class="level pending">
+      <div class="level-row">
+        <span class="lv-index mono">04</span>
+        <div class="lv-body">
+          <div class="lv-top">
+            <h3 class="lv-title">Lab 4</h3>
+            <span class="status soon">COMING SOON</span>
+          </div>
+          <p class="placeholder-note">ยังไม่มีลิงก์ผลงาน — จะอัปเดตเมื่อพร้อมเผยแพร่</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 5 -->
+    <div class="level pending">
+      <div class="level-row">
+        <span class="lv-index mono">05</span>
+        <div class="lv-body">
+          <div class="lv-top">
+            <h3 class="lv-title">Lab 5</h3>
+            <span class="status soon">COMING SOON</span>
+          </div>
+          <p class="placeholder-note">ยังไม่มีลิงก์ผลงาน — จะอัปเดตเมื่อพร้อมเผยแพร่</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 6 -->
+    <div class="level pending">
+      <div class="level-row">
+        <span class="lv-index mono">06</span>
+        <div class="lv-body">
+          <div class="lv-top">
+            <h3 class="lv-title">Lab 6</h3>
+            <span class="status soon">COMING SOON</span>
+          </div>
+          <p class="placeholder-note">ยังไม่มีลิงก์ผลงาน — จะอัปเดตเมื่อพร้อมเผยแพร่</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>© 2026 · Computer Game Development Portfolio</span>
+    <span>build: index.html</span>
+  </footer>
 
 </body>
 </html>
